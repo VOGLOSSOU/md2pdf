@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MD → PDF</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="vendor/marked.min.js"></script>
+  <script src="vendor/html2pdf.bundle.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -144,9 +144,9 @@
 
     /* PDF render target (hidden) */
     #pdf-content {
-      position: fixed;
-      left: -9999px;
-      top: 0;
+      position: absolute;
+      top: -9999px;
+      left: 0;
       width: 794px;
       padding: 60px 72px;
       background: #fff;
@@ -318,11 +318,11 @@
       const baseName = currentFile.name.replace(/\.(md|markdown)$/i, '');
 
       const opt = {
-        margin: 0,
+        margin: [15, 15, 15, 15],
         filename: baseName + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true },
-        jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait', hotfixes: ['px_scaling'] },
+        html2canvas: { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       };
 
       await html2pdf().set(opt).from(pdfContent).save();
